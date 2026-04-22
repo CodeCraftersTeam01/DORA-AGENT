@@ -331,6 +331,14 @@ function handleWsMessage(data) {
       showQRConnected();
       setStatusMini('connected', 'WhatsApp Terhubung');
       updateCard('waConnection', '✅ Terhubung');
+      
+      // Auto-tutup popup restart jika sedang terbuka
+      const overlay = document.getElementById('restartModalOverlay');
+      if (overlay && overlay.style.display === 'flex') {
+        overlay.style.display = 'none';
+        showToast('Bot berhasil terhubung kembali!', 'success');
+        if (window.restartTimeout) clearTimeout(window.restartTimeout);
+      }
       break;
     case 'disconnected':
       showQRDisconnected();
