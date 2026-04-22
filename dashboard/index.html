@@ -301,27 +301,17 @@ Informasikan harga sesuai data yang ada."></textarea>
     <!--  SECTION: MANAJEMEN API      -->
     <!-- ============================= -->
     <section class="section" id="section-apikey">
-      <div class="section-header" style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:15px;">
-        <div style="flex:1;">
-          <h2>Manajemen API Key</h2>
-          <p>Kelola kunci API untuk AI yang digunakan oleh bot. Simpan kunci ini dengan aman.</p>
-        </div>
-        <div class="api-links-header" style="display:flex; gap:10px;">
-          <a href="https://aistudio.google.com/app/apikey" target="_blank" class="btn btn-secondary btn-sm" title="Dapatkan Gemini API Key">
-            <i class="fa-solid fa-link"></i> Gemini
-          </a>
-          <a href="https://openrouter.ai/keys" target="_blank" class="btn btn-secondary btn-sm" title="Dapatkan OpenRouter API Key">
-            <i class="fa-solid fa-link"></i> OpenRouter
-          </a>
-          <a href="https://console.groq.com/keys" target="_blank" class="btn btn-secondary btn-sm" title="Dapatkan Groq API Key">
-            <i class="fa-solid fa-link"></i> Groq
-          </a>
-        </div>
+      <div class="section-header">
+        <h2>Manajemen API Key</h2>
+        <p>Kelola kunci API untuk AI yang digunakan oleh bot. Simpan kunci ini dengan aman.</p>
       </div>
 
       <div class="api-key-grid">
         <!-- Gemini -->
-        <div class="api-key-card" id="card-gemini">
+        <div class="api-key-card" id="card-gemini" style="position:relative;">
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" class="api-card-link" title="Dapatkan Key">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
           <div class="api-key-info">
             <div class="api-key-name">Gemini API Key</div>
             <div class="api-key-status unset" id="status-gemini"><i class="fa-solid fa-circle-xmark"></i> Belum disetel</div>
@@ -340,7 +330,10 @@ Informasikan harga sesuai data yang ada."></textarea>
         </div>
 
         <!-- OpenRouter -->
-        <div class="api-key-card" id="card-openrouter">
+        <div class="api-key-card" id="card-openrouter" style="position:relative;">
+          <a href="https://openrouter.ai/keys" target="_blank" class="api-card-link" title="Dapatkan Key">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
           <div class="api-key-info">
             <div class="api-key-name">OpenRouter API Key</div>
             <div class="api-key-status unset" id="status-openrouter"><i class="fa-solid fa-circle-xmark"></i> Belum disetel</div>
@@ -359,7 +352,10 @@ Informasikan harga sesuai data yang ada."></textarea>
         </div>
 
         <!-- Groq -->
-        <div class="api-key-card" id="card-groq">
+        <div class="api-key-card" id="card-groq" style="position:relative;">
+          <a href="https://console.groq.com/keys" target="_blank" class="api-card-link" title="Dapatkan Key">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
           <div class="api-key-info">
             <div class="api-key-name">Groq API Key <span style="font-size:11px; font-weight:normal; color:var(--text-muted)">(Transkripsi Suara)</span></div>
             <div class="api-key-status unset" id="status-groq"><i class="fa-solid fa-circle-xmark"></i> Belum disetel</div>
