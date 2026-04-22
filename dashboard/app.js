@@ -952,15 +952,29 @@ function renderBranches() {
     item.style.borderRadius = '8px';
     
     item.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-        <div style="flex:1;">
-          <div style="font-weight:600; font-size:15px; margin-bottom:4px; color:var(--text-primary);"><i class="fa-solid fa-location-dot"></i> ${b.name}</div>
-          <div style="font-size:13px; color:var(--text-secondary); margin-bottom:8px; line-height:1.5;">${b.address}</div>
-          ${b.mapsUrl ? `<a href="${b.mapsUrl}" target="_blank" style="font-size:12px; color:var(--accent); text-decoration:none;"><i class="fa-solid fa-map-marked-alt"></i> Buka di Google Maps</a>` : ''}
+      <div class="branch-card-content" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+        <div class="branch-info" style="flex:1;">
+          <div class="branch-name" style="font-weight:600; font-size:16px; color:var(--text-primary); margin-bottom:4px;">
+            <i class="fa-solid fa-location-dot" style="color:var(--accent); margin-right:8px;"></i>${b.name}
+          </div>
+          <div class="branch-address" style="font-size:13px; color:var(--text-secondary); line-height:1.4;">
+            ${b.address}
+          </div>
+          ${b.mapsUrl ? `
+            <div style="margin-top:8px;">
+              <a href="${b.mapsUrl}" target="_blank" style="font-size:12px; color:var(--accent); text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+                <i class="fa-solid fa-map-marked-alt"></i> Lihat di Peta
+              </a>
+            </div>
+          ` : ''}
         </div>
-        <div style="display:flex; gap:8px;">
-          <button class="btn btn-secondary btn-xs" onclick="editBranch(${index})"><i class="fa-solid fa-pen"></i> Edit</button>
-          <button class="btn btn-danger btn-xs" onclick="deleteBranch(${index})"><i class="fa-solid fa-trash"></i></button>
+        <div class="branch-actions" style="display:flex; gap:10px; margin-left:20px;">
+          <button class="btn btn-secondary btn-sm" onclick="editBranch(${index})" title="Edit Cabang">
+            <i class="fa-solid fa-pen"></i> <span class="btn-text">Edit</span>
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="deleteBranch(${index})" title="Hapus Cabang" style="padding: 8px 12px;">
+            <i class="fa-solid fa-trash"></i>
+          </button>
         </div>
       </div>
     `;
