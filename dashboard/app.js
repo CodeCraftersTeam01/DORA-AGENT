@@ -165,6 +165,24 @@ function initUpdater() {
       showToast('Gagal menghubungi server.', 'error');
     }
   });
+
+  // Jadwalkan pengecekan otomatis setiap jam 12 malam
+  scheduleMidnightUpdate();
+}
+
+function scheduleMidnightUpdate() {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0); // Jam 12 malam berikutnya
+  const diff = midnight - now;
+
+  console.log(`Pengecekan update otomatis dijadwalkan dalam ${Math.round(diff/1000/60)} menit (Jam 12 Malam).`);
+
+  setTimeout(() => {
+    checkUpdates();
+    // Setelah jam 12 malam pertama, ulangi setiap 24 jam
+    setInterval(checkUpdates, 24 * 60 * 60 * 1000);
+  }, diff);
 }
 
 async function checkUpdates() {
