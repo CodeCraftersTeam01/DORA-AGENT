@@ -1567,20 +1567,19 @@ body {
 }
 
 /* API Card Links */
-.api-card-link {
-  position: absolute;
-  top: 15px;
-  right: 15px;
+.api-card-link-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 13px;
+  margin-left: 8px;
   transition: var(--transition);
-  padding: 5px;
-  border-radius: 4px;
-  z-index: 5;
+  vertical-align: middle;
+  text-decoration: none;
 }
 
-.api-card-link:hover {
+.api-card-link-inline:hover {
   color: var(--accent);
-  background-color: rgba(37, 211, 102, 0.1);
-  transform: translateY(-2px);
+  transform: scale(1.2) rotate(10deg);
 }
