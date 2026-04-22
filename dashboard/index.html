@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DORA Agent — Dashboard Admin</title>
+  <meta name="description" content="Dashboard admin untuk mengelola bot WhatsApp AI DORA Agent." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fa-solid fa-robot logo-icon-fa"></i>
+        <span class="logo-text">DORA Agent</span>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Tutup menu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <nav class="nav" role="navigation" aria-label="Menu utama">
+      <a href="#" class="nav-item active" data-section="status" id="nav-status">
+        <i class="fa-solid fa-tower-broadcast nav-icon-fa"></i>
+        <span class="nav-label">Status Bot</span>
+      </a>
+      <a href="#" class="nav-item" data-section="qr" id="nav-qr">
+        <i class="fa-solid fa-qrcode nav-icon-fa"></i>
+        <span class="nav-label">QR WhatsApp</span>
+      </a>
+      <a href="#" class="nav-item" data-section="prompt" id="nav-prompt">
+        <i class="fa-solid fa-file-lines nav-icon-fa"></i>
+        <span class="nav-label">Sistem Prompt</span>
+      </a>
+      <a href="#" class="nav-item" data-section="excel" id="nav-excel">
+        <i class="fa-solid fa-table nav-icon-fa"></i>
+        <span class="nav-label">Data Excel</span>
+      </a>
+      <a href="#" class="nav-item" data-section="branches" id="nav-branches">
+        <i class="fa-solid fa-map-location-dot nav-icon-fa"></i>
+        <span class="nav-label">Alamat Cabang</span>
+      </a>
+      <a href="#" class="nav-item" data-section="apikey" id="nav-apikey">
+        <i class="fa-solid fa-key nav-icon-fa"></i>
+        <span class="nav-label">Manajemen API</span>
+      </a>
+      <a href="#" class="nav-item" data-section="config" id="nav-config">
+        <i class="fa-solid fa-sliders nav-icon-fa"></i>
+        <span class="nav-label">Konfigurasi</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="bot-status-mini" id="botStatusMini">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Memeriksa...</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-wrapper">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Buka menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <h1 class="topbar-title" id="pageTitle">Status Bot</h1>
+      <div class="topbar-right">
+        <button class="topbar-btn update-btn" id="btnUpdateBot" title="Cek Pembaruan" style="display:none; color: var(--warning);">
+          <i class="fa-solid fa-cloud-arrow-down"></i>
+          <span class="btn-badge">Baru</span>
+        </button>
+        <button class="topbar-btn restart-btn" id="btnRestartBot" title="Restart Bot">
+          <i class="fa-solid fa-rotate"></i>
+        </button>
+        <button class="theme-toggle" id="themeToggleBtn" aria-label="Toggle Dark Mode">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <span class="time-display" id="timeDisplay"></span>
+      </div>
+    </header>
+
+    <!-- ============================= -->
+    <!--  SECTION: STATUS BOT         -->
+    <!-- ============================= -->
+    <section class="section active" id="section-status">
+      <div class="section-header">
+        <h2>Status Bot</h2>
+        <p>Pantau kondisi bot WhatsApp kamu secara langsung.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon-fa"><i class="fa-solid fa-tower-broadcast"></i></div>
+          <div class="card-info">
+            <div class="card-label">Koneksi WhatsApp</div>
+            <div class="card-value" id="waConnection">—</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon-fa"><i class="fa-solid fa-brain"></i></div>
+          <div class="card-info">
+            <div class="card-label">Mode AI</div>
+            <div class="card-value" id="aiMode">—</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon-fa"><i class="fa-solid fa-file-excel"></i></div>
+          <div class="card-info">
+            <div class="card-label">File Excel Aktif</div>
+            <div class="card-value" id="excelCount">—</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon-fa"><i class="fa-solid fa-microphone"></i></div>
+          <div class="card-info">
+            <div class="card-label">Transkripsi Suara</div>
+            <div class="card-value" id="voiceMode">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-box">
+        <div class="log-header">
+          <div class="log-title"><i class="fa-solid fa-terminal"></i> Log Sistem (Live)</div>
+          <button class="btn btn-secondary btn-sm" id="clearLogBtn">
+            <i class="fa-solid fa-trash-can"></i> Hapus Log
+          </button>
+        </div>
+        <div class="log-content" id="logContent">
+          <div class="log-empty">Menunggu log dari server...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= -->
+    <!--  SECTION: QR WHATSAPP        -->
+    <!-- ============================= -->
+    <section class="section" id="section-qr">
+      <div class="section-header">
+        <h2>QR Code WhatsApp</h2>
+        <p>Scan kode QR ini dengan WhatsApp di HP kamu untuk menghubungkan bot.</p>
+      </div>
+
+      <div class="qr-container">
+        <div class="qr-card" id="qrCard">
+          <div class="qr-placeholder" id="qrPlaceholder">
+            <div class="qr-icon-fa"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <p class="qr-help-text">QR Code akan muncul di sini saat bot belum terhubung ke WhatsApp.<br><br>Jika bot
+              sudah terhubung, tidak perlu scan ulang.</p>
+            <div class="qr-state" id="qrState">Menunggu QR...</div>
+          </div>
+          <div class="qr-code-wrapper" id="qrCodeWrapper" style="display:none;">
+            <img id="qrImage" src="" alt="QR Code WhatsApp" class="qr-image" />
+            <p class="qr-instruction">Buka WhatsApp → Menu (3 titik) → <strong>Perangkat Tertaut</strong> →
+              <strong>Tambah Perangkat</strong></p>
+          </div>
+          <div class="qr-connected-wrapper" id="qrConnectedWrapper" style="display:none; text-align: center;">
+            <div style="margin-bottom: 20px;">
+              <i class="fa-solid fa-circle-check" style="font-size: 80px; color: var(--success);"></i>
+            </div>
+            <h3 style="color: var(--success); margin-bottom: 10px;">WhatsApp Terhubung!</h3>
+            <p style="color: var(--text-secondary); line-height: 1.6;">
+              Bot sudah aktif dan siap melayani pelanggan.<br>
+              Kamu tidak perlu melakukan scan QR lagi.
+            </p>
+            <div style="margin-top: 25px; font-size: 13px; color: var(--text-muted);">
+              <i class="fa-solid fa-info-circle"></i> Jika ingin mengganti akun, silakan logout dari WhatsApp di HP kamu.
+            </div>
+          </div>
+        </div>
+
+        <div class="qr-info-box">
+          <div class="info-title"><i class="fa-solid fa-book-open"></i> Cara Menghubungkan Bot</div>
+          <ol class="steps-list">
+            <li>Buka aplikasi <strong>WhatsApp</strong> di HP kamu</li>
+            <li>Ketuk ikon titik tiga di pojok kanan atas</li>
+            <li>Pilih <strong>"Perangkat Tertaut"</strong></li>
+            <li>Ketuk <strong>"Tambahkan Perangkat"</strong></li>
+            <li>Arahkan kamera ke QR Code di sebelah kiri</li>
+          </ol>
+          <div class="info-note">
+            <i class="fa-solid fa-circle-info"></i> <strong>Catatan:</strong> Setelah terhubung, bot akan otomatis
+            merespons pesan WhatsApp. Kamu tidak perlu scan ulang selama sesi masih aktif.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= -->
+    <!--  SECTION: SISTEM PROMPT      -->
+    <!-- ============================= -->
+    <section class="section" id="section-prompt">
+      <div class="section-header">
+        <h2>Sistem Prompt / Instruksi AI</h2>
+        <p>Tentukan bagaimana bot berbicara dan berperilaku kepada pelanggan.</p>
+      </div>
+
+      <div class="prompt-container">
+        <div class="prompt-help">
+          <div class="help-title"><i class="fa-solid fa-lightbulb"></i> Apa itu Sistem Prompt?</div>
+          <p>Sistem prompt adalah instruksi yang diberikan ke AI sebelum mulai berbicara dengan pelanggan. Contoh:
+            <em>"Kamu adalah CS Toko Mawar. Selalu sapa dengan ramah dan profesional."</em></p>
+          <div class="help-note-human">
+            <i class="fa-solid fa-user-secret"></i> <strong>Mode Manusia aktif.</strong> Bot sudah dikonfigurasi untuk
+            berbicara seperti manusia, bukan seperti AI. Instruksi ini bersifat tersembunyi dan tidak bisa diubah dari
+            sini.
+          </div>
+        </div>
+
+        <div class="file-tabs" id="promptFileTabs"></div>
+
+        <div class="prompt-editor-zone">
+          <div class="prompt-editor-header">
+            <div id="currentPromptFileName" class="current-file-name"><i class="fa-solid fa-file-lines"></i>
+              instruksi_ai.txt</div>
+            <div class="prompt-actions">
+              <button class="btn btn-secondary btn-sm" id="addPromptFileBtn">
+                <i class="fa-solid fa-plus"></i> File Baru
+              </button>
+              <button class="btn btn-danger btn-sm" id="deletePromptFileBtn">
+                <i class="fa-solid fa-trash"></i> Hapus
+              </button>
+            </div>
+          </div>
+          <textarea class="prompt-textarea" id="promptTextarea" placeholder="Tulis instruksi AI di sini...
+Contoh:
+Kamu adalah asisten virtual Toko Bunga Mawar.
+Selalu sapa pelanggan dengan ramah.
+Informasikan harga sesuai data yang ada."></textarea>
+          <div class="prompt-footer">
+            <span class="char-count" id="charCount">0 karakter</span>
+            <button class="btn btn-primary" id="savePromptBtn">
+              <i class="fa-solid fa-floppy-disk"></i> Simpan Instruksi
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= -->
+    <!--  SECTION: DATA EXCEL         -->
+    <!-- ============================= -->
+    <section class="section" id="section-excel">
+      <div class="section-header">
+        <h2>Data Excel</h2>
+        <p>Upload file Excel berisi data produk, harga, atau promo. Bot akan membacanya otomatis.</p>
+      </div>
+
+      <div class="excel-container">
+        <div class="excel-help">
+          <div class="help-title"><i class="fa-solid fa-table"></i> Fungsi Data Excel</div>
+          <p>File Excel yang kamu upload akan <strong>dibaca otomatis</strong> oleh AI setiap kali ada percakapan.
+            Gunakan untuk menyimpan data produk, harga, stok, promo, dll. Format yang didukung: <code>.xlsx</code> atau
+            <code>.xls</code></p>
+        </div>
+
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-icon-fa"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <div class="upload-title">Tarik & Lepas file Excel di sini</div>
+          <div class="upload-subtitle">atau klik tombol di bawah</div>
+          <input type="file" id="excelFileInput" accept=".xlsx,.xls" style="display:none" />
+          <button class="btn btn-primary" id="browseExcelBtn">
+            <i class="fa-solid fa-folder-open"></i> Pilih File
+          </button>
+          <div class="upload-format">Format yang didukung: .xlsx dan .xls (maks. 10MB)</div>
+        </div>
+
+        <div class="upload-progress" id="uploadProgress" style="display:none">
+          <div class="progress-text" id="progressText">Mengupload...</div>
+          <div class="progress-bar-wrapper">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+        </div>
+
+        <div class="excel-file-list">
+          <div class="file-list-header">
+            <div class="file-list-title"><i class="fa-solid fa-list"></i> File Terdaftar</div>
+            <button class="btn btn-secondary btn-sm" id="refreshExcelBtn">
+              <i class="fa-solid fa-rotate"></i> Refresh
+            </button>
+          </div>
+          <div id="excelFileList" class="file-list">
+            <div class="file-empty">Belum ada file Excel yang diupload.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= -->
+    <!--  SECTION: MANAJEMEN API      -->
+    <!-- ============================= -->
+    <section class="section" id="section-apikey">
+      <div class="section-header">
+        <h2>Manajemen API Key</h2>
+        <p>Kelola kunci API untuk AI yang digunakan oleh bot. Simpan kunci ini dengan aman.</p>
+      </div>
+
+      <div class="api-key-grid">
+        <!-- Gemini -->
+        <div class="api-key-card" id="card-gemini">
+          <div class="api-key-info">
+            <div class="api-key-name">Gemini API Key</div>
+            <div class="api-key-status unset" id="status-gemini"><i class="fa-solid fa-circle-xmark"></i> Belum disetel</div>
+          </div>
+          <div class="api-key-actions">
+            <button class="btn btn-primary btn-sm btn-set-api" data-provider="gemini">
+              <i class="fa-solid fa-plus"></i> Set API Key
+            </button>
+            <button class="btn btn-secondary btn-sm btn-edit-api" data-provider="gemini" style="display:none">
+              <i class="fa-solid fa-pen"></i> Edit
+            </button>
+            <button class="btn btn-danger btn-sm btn-delete-api" data-provider="gemini" style="display:none">
+              <i class="fa-solid fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- OpenRouter -->
+        <div class="api-key-card" id="card-openrouter">
+          <div class="api-key-info">
+            <div class="api-key-name">OpenRouter API Key</div>
+            <div class="api-key-status unset" id="status-openrouter"><i class="fa-solid fa-circle-xmark"></i> Belum disetel</div>
+          </div>
+          <div class="api-key-actions">
+            <button class="btn btn-primary btn-sm btn-set-api" data-provider="openrouter">
+              <i class="fa-solid fa-plus"></i> Set API Key
+            </button>
+            <button class="btn btn-secondary btn-sm btn-edit-api" data-provider="openrouter" style="display:none">
+              <i class="fa-solid fa-pen"></i> Edit
+            </button>
+            <button class="btn btn-danger btn-sm btn-delete-api" data-provider="openrouter" style="display:none">
+              <i class="fa-solid fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- Groq -->
+        <div class="api-key-card" id="card-groq">
+          <div class="api-key-info">
+            <div class="api-key-name">Groq API Key <span style="font-size:11px; font-weight:normal; color:var(--text-muted)">(Transkripsi Suara)</span></div>
+            <div class="api-key-status unset" id="status-groq"><i class="fa-solid fa-circle-xmark"></i> Belum disetel</div>
+          </div>
+          <div class="api-key-actions">
+            <button class="btn btn-primary btn-sm btn-set-api" data-provider="groq">
+              <i class="fa-solid fa-plus"></i> Set API Key
+            </button>
+            <button class="btn btn-secondary btn-sm btn-edit-api" data-provider="groq" style="display:none">
+              <i class="fa-solid fa-pen"></i> Edit
+            </button>
+            <button class="btn btn-danger btn-sm btn-delete-api" data-provider="groq" style="display:none">
+              <i class="fa-solid fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= -->
+    <!--  SECTION: ALAMAT CABANG      -->
+    <!-- ============================= -->
+    <section class="section" id="section-branches">
+      <div class="section-header">
+        <h2>Alamat Cabang / Toko</h2>
+        <p>Kelola daftar lokasi cabang toko kamu agar AI bisa memberikan informasi lokasi yang akurat kepada pelanggan.</p>
+      </div>
+
+      <div class="branches-container" style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow);">
+        <div class="branches-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div class="branches-title" style="font-weight:600; font-size:14px;"><i class="fa-solid fa-store"></i> Daftar Cabang Terdaftar</div>
+          <button class="btn btn-primary btn-sm" id="btnAddBranch">
+            <i class="fa-solid fa-plus"></i> Tambah Cabang Baru
+          </button>
+        </div>
+        
+        <div id="branchesList" class="branches-list">
+          <div class="file-empty" style="text-align:center; padding:40px; color:var(--text-muted);">Memuat data cabang...</div>
+        </div>
+
+        <div class="info-note" style="margin-top: 20px; padding:12px; background:var(--bg); border:1px solid var(--border); border-radius:6px; font-size:12.5px; color:var(--text-secondary);">
+          <i class="fa-solid fa-circle-info"></i> <strong>Tips:</strong> Masukkan link Google Maps agar AI bisa memberikan navigasi langsung kepada pelanggan saat mereka bertanya lokasi.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= -->
+    <!--  SECTION: KONFIGURASI        -->
+    <!-- ============================= -->
+    <section class="section" id="section-config">
+      <div class="section-header">
+        <h2>Konfigurasi Bot</h2>
+        <p>Atur pengaturan utama bot kamu.</p>
+      </div>
+
+      <div class="config-container">
+        <div class="config-group">
+          <div class="config-group-title"><i class="fa-solid fa-brain"></i> Pengaturan AI</div>
+
+          <div class="config-field">
+            <label for="cfg-ai-mode" class="config-label">Mode AI</label>
+            <select id="cfg-ai-mode" class="config-select" data-env="AI_MODE">
+              <option value="both">Both — Coba Gemini dulu, lanjut OpenRouter jika gagal (Direkomendasikan)</option>
+              <option value="gemini_only">Gemini Only — Hanya gunakan Gemini</option>
+              <option value="openrouter_only">OpenRouter Only — Hanya gunakan OpenRouter</option>
+            </select>
+          </div>
+
+          <div class="config-field">
+            <label for="cfg-voice-concurrency" class="config-label">
+              Batas Transkripsi Suara Paralel
+              <span class="config-hint">Naikkan jika RAM server besar (default: 2)</span>
+            </label>
+            <input type="number" id="cfg-voice-concurrency" class="config-input config-input-short" min="1" max="10"
+              placeholder="2" data-env="VOICE_TRANSCRIBE_CONCURRENCY" />
+          </div>
+        </div>
+
+        <div class="config-group">
+          <div class="config-group-title"><i class="fa-brands fa-whatsapp"></i> Pengaturan Bot</div>
+
+          <div class="config-field">
+            <label class="config-label">Mode Pesan</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="privateOnly" value="false" data-env="PRIVATE_ONLY" />
+                <span class="radio-custom"></span>
+                <div>
+                  <strong>Semua Chat</strong>
+                  <div class="radio-desc">Bot merespons pesan pribadi dan grup</div>
+                </div>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="privateOnly" value="true" data-env="PRIVATE_ONLY" />
+                <span class="radio-custom"></span>
+                <div>
+                  <strong>Pribadi Saja</strong>
+                  <div class="radio-desc">Bot hanya merespons pesan pribadi (mengabaikan grup)</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="config-field">
+            <label for="cfg-bot-prefix" class="config-label">
+              Prefix Perintah
+              <span class="config-hint">Kosongkan jika tidak perlu (contoh: ! → bot hanya merespons pesan diawali
+                !)</span>
+            </label>
+            <input type="text" id="cfg-bot-prefix" class="config-input config-input-short"
+              placeholder="Kosongkan jika tidak perlu..." data-env="BOT_PREFIX" />
+          </div>
+        </div>
+
+        <div class="config-group">
+          <div class="config-group-title"><i class="fa-solid fa-user-lock"></i> Akun Admin Dashboard</div>
+          <div class="config-note">Ubah username dan password untuk masuk ke dashboard ini. Anda akan diminta login
+            ulang setelah berhasil mengganti akun.</div>
+
+          <div class="config-field">
+            <label for="cfg-admin-user" class="config-label">Username Baru</label>
+            <input type="text" id="cfg-admin-user" class="config-input" placeholder="Isi untuk mengganti username..." />
+          </div>
+          <div class="config-field">
+            <label for="cfg-admin-pass" class="config-label">Password Baru</label>
+            <div class="config-input-wrapper">
+              <input type="password" id="cfg-admin-pass" class="config-input"
+                placeholder="Isi untuk mengganti password..." />
+              <button class="toggle-password" data-target="cfg-admin-pass"><i class="fa-solid fa-eye"></i></button>
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <button class="btn btn-secondary btn-sm" id="updateAdminBtn">
+              <i class="fa-solid fa-key"></i> Perbarui Akun Admin
+            </button>
+          </div>
+        </div>
+
+        <div class="config-save-bar">
+          <div class="config-save-note" id="configSaveNote"></div>
+          <button class="btn btn-primary" id="saveConfigBtn">
+            <i class="fa-solid fa-floppy-disk"></i> Simpan Konfigurasi
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== TOAST NOTIFICATION ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== MODAL: ADD PROMPT FILE ===== -->
+  <div class="modal-overlay" id="modalOverlay" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Tambah File Prompt Baru</div>
+        <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <label class="config-label" for="newFileName">Nama File</label>
+        <input type="text" class="config-input" id="newFileName" placeholder="contoh: instruksi_promosi.txt" />
+        <div class="modal-hint">File akan disimpan di folder <code>data/system_message/</code>. Ekstensi
+          <code>.txt</code> akan otomatis ditambahkan.</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="modalCancel">Batal</button>
+        <button class="btn btn-primary" id="modalConfirm">
+          <i class="fa-solid fa-check"></i> Buat File
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: SET API KEY ===== -->
+  <div class="modal-overlay" id="apiKeyModalOverlay" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="apiKeyModalTitle">Set API Key</div>
+        <button class="modal-close" id="apiKeyModalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="apiKeyModalBody">
+        <label class="config-label" id="apiKeyLabel">API Key</label>
+        
+        <div id="apiInputsContainer">
+          <!-- Dynamic inputs will be injected here by app.js -->
+        </div>
+        
+        <button id="btnAddApiKey" class="btn btn-secondary btn-sm" style="display:none; margin-bottom: 12px; width: 100%;">
+          <i class="fa-solid fa-plus"></i> Tambah API Key
+        </button>
+
+        <div class="modal-hint" id="apiKeyHint">
+          Dapatkan gratis di <a href="#" target="_blank" id="apiKeyLink" class="config-link">website resmi</a>.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="apiKeyModalCancel">Batal</button>
+        <button class="btn btn-primary" id="apiKeyModalConfirm">
+          <i class="fa-solid fa-floppy-disk"></i> Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: ADD/EDIT BRANCH ===== -->
+  <div class="modal-overlay" id="branchModalOverlay" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="branchModalTitle">Tambah Cabang Baru</div>
+        <button class="modal-close" id="branchModalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="config-field" style="margin-bottom:15px;">
+          <label class="config-label" for="branchName">Nama Cabang</label>
+          <input type="text" class="config-input" id="branchName" placeholder="Contoh: Cabang Jakarta Pusat" />
+        </div>
+        <div class="config-field" style="margin-bottom:15px;">
+          <label class="config-label" for="branchAddress">Alamat Lengkap</label>
+          <textarea class="config-input" id="branchAddress" style="height:80px; padding:10px;" placeholder="Masukkan alamat lengkap cabang..."></textarea>
+        </div>
+        <div class="config-field">
+          <label class="config-label" for="branchMaps">Link Google Maps (Sherlock)</label>
+          <input type="text" class="config-input" id="branchMaps" placeholder="https://maps.app.goo.gl/..." />
+          <div class="modal-hint">Buka Google Maps, cari lokasi, lalu klik Share → Salin Link.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="branchModalCancel">Batal</button>
+        <button class="btn btn-primary" id="branchModalConfirm">
+          <i class="fa-solid fa-check"></i> Simpan Cabang
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: RESTART STATUS ===== -->
+  <div class="modal-overlay" id="restartModalOverlay" style="display:none; z-index: 9999;">
+    <div class="modal" style="max-width: 400px; text-align: center; padding: 30px;">
+      <div style="margin-bottom: 20px;">
+        <i class="fa-solid fa-rotate fa-spin" style="font-size: 48px; color: var(--accent);"></i>
+      </div>
+      <h3 style="margin-bottom: 10px;">Restarting Bot...</h3>
+      <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;" id="restartStatusText">
+        Sedang memulai ulang koneksi WhatsApp dan memuat konfigurasi baru. Mohon tunggu sebentar...
+      </p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
