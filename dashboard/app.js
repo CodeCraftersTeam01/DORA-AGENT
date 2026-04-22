@@ -151,10 +151,7 @@ function initUpdater() {
     }
 
     try {
-      const res = await fetch('/api/update/execute', { 
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('dora_token')}` }
-      });
+      const res = await fetch('/api/update/execute', { method: 'POST' });
       const data = await res.json();
       if (res.ok) {
         statusText.textContent = 'Pembaruan berhasil! Sedang memulai ulang bot...';
@@ -175,9 +172,7 @@ async function checkUpdates() {
   if (!btnUpdate) return;
 
   try {
-    const res = await fetch('/api/update/check', {
-      headers: { 'Authorization': `Bearer ${localStorage.getItem('dora_token')}` }
-    });
+    const res = await fetch('/api/update/check');
     const data = await res.json();
     if (data.updateAvailable) {
       btnUpdate.style.display = 'inline-flex';
@@ -1293,10 +1288,7 @@ function initRestartBot() {
     statusText.textContent = 'Menerima permintaan restart...';
 
     try {
-      const res = await fetch('/api/bot/restart', { 
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('dora_token')}` }
-      });
+      const res = await fetch('/api/bot/restart', { method: 'POST' });
       if (res.ok) {
         statusText.textContent = 'Bot sedang dimulai ulang. Menunggu koneksi WhatsApp terhubung kembali...';
         
