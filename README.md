@@ -88,6 +88,6 @@ Docker memastikan bot berjalan dalam lingkungan yang stabil dan terisolasi.
 
 <div align="center">
 
-**Dibuat dengan ❤️ oleh [Lanvry](https://github.com/Lanvry)**
+**Dibuat dengan ❤️ oleh [CodeCrafters Team](https://github.com/CodeCraftersTeam01)**
 
 </div>
