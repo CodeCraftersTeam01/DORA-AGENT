@@ -734,44 +734,83 @@ Informasikan harga sesuai data yang ada."></textarea>
 
   <script src="app.js"></script>
   
-  <!-- SECURITY: ANTI-INSPECT -->
+  <!-- SECURITY: ADVANCED ANTI-INSPECT & PROTECTION -->
   <script>
-    // Disable Right-Click
-    document.addEventListener('contextmenu', e => e.preventDefault());
-
-    // Disable Shortcuts
-    document.onkeydown = function(e) {
-      // F12
-      if (e.keyCode == 123) return false;
-      // Ctrl+Shift+I (Inspect)
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-      // Ctrl+Shift+J (Console)
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-      // Ctrl+U (View Source)
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-      // Ctrl+Shift+C (Element selector)
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-    };
-
-    // Advanced: Debugger Loop (Discourages DevTools opening)
     (function() {
-      const start = Date.now();
-      debugger;
-      if (Date.now() - start > 100) {
-        console.clear();
-        document.body.innerHTML = '<div style="display:flex;height:100vh;align-items:center;justify-content:center;background:#000;color:#fff;font-family:sans-serif;text-align:center;"><div><h1>Security Alert</h1><p>Inspect Element is disabled for security reasons.</p><button onclick="location.reload()" style="padding:10px 20px;margin-top:10px;cursor:pointer;">Reload Page</button></div></div>';
+      // 1. Disable Right-Click
+      document.addEventListener('contextmenu', e => e.preventDefault());
+
+      // 2. Disable Keyboard Shortcuts
+      document.addEventListener('keydown', function(e) {
+        // F12
+        if (e.keyCode === 123) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+        if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+U (View Source)
+        if (e.ctrlKey && e.keyCode === 85) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+S (Save Page)
+        if (e.ctrlKey && e.keyCode === 83) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // 3. Robust DevTools Detection (Window Size & Debugger)
+      function detectDevTools() {
+        const widthThreshold = window.outerWidth - window.innerWidth > 160;
+        const heightThreshold = window.outerHeight - window.innerHeight > 160;
+        
+        if (widthThreshold || heightThreshold) {
+          terminateSession();
+        }
       }
+
+      function terminateSession() {
+        document.body.innerHTML = `
+          <div style="display:flex; height:100vh; align-items:center; justify-content:center; background:#0f172a; color:#fff; font-family:'Inter', sans-serif; text-align:center; padding: 20px;">
+            <div style="max-width: 400px; background: #1e293b; padding: 40px; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
+              <div style="font-size: 50px; color: #ef4444; margin-bottom: 20px;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <h1 style="font-size: 24px; margin-bottom: 10px;">Security Alert</h1>
+              <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 25px;">Inspect Element atau Developer Tools terdeteksi. Untuk keamanan data Anda, akses telah diblokir.</p>
+              <button onclick="location.reload()" style="background:#3b82f6; color:#fff; border:none; padding:12px 30px; border-radius:8px; font-weight:600; cursor:pointer; transition: 0.2s; width: 100%;">Muat Ulang Halaman</button>
+            </div>
+          </div>
+        `;
+        throw new Error("Security Violation: DevTools Detected");
+      }
+
+      // Continuous Checks
+      setInterval(detectDevTools, 1000);
+
+      // Debugger check (standard way)
+      setInterval(function() {
+        const start = Date.now();
+        debugger;
+        if (Date.now() - start > 100) {
+          terminateSession();
+        }
+      }, 1000);
+
+      // 4. Prevent Drag and Drop of elements (can sometimes reveal source)
+      document.addEventListener('dragstart', e => e.preventDefault());
+      document.addEventListener('drop', e => e.preventDefault());
+
+      // 5. Clear Console regularly
+      setInterval(() => {
+        if (window.console && window.console.clear) {
+          console.clear();
+        }
+      }, 2000);
     })();
-    
-    // Continuous check
-    setInterval(function() {
-      const before = new Date().getTime();
-      debugger;
-      const after = new Date().getTime();
-      if (after - before > 100) {
-        window.location.reload();
-      }
-    }, 1000);
   </script>
 </body>
 
