@@ -21,7 +21,9 @@
       <div class="logo">
         <i class="fa-solid fa-robot logo-icon-fa"></i>
         <span class="logo-text">DORA Agent</span>
+        <span class="badge-pro" id="badgePro" style="display:none;">PRO</span>
       </div>
+
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Tutup menu">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -56,7 +58,12 @@
         <i class="fa-solid fa-sliders nav-icon-fa"></i>
         <span class="nav-label">Konfigurasi</span>
       </a>
+      <a href="#" class="nav-item" data-section="license" id="nav-license">
+        <i class="fa-solid fa-certificate nav-icon-fa"></i>
+        <span class="nav-label">Lisensi</span>
+      </a>
     </nav>
+
 
     <div class="sidebar-footer">
       <div class="bot-status-mini" id="botStatusMini">
@@ -510,7 +517,59 @@ Informasikan harga sesuai data yang ada."></textarea>
       </div>
     </section>
 
+    <!-- ============================= -->
+    <!--  SECTION: LISENSI            -->
+    <!-- ============================= -->
+    <section class="section" id="section-license">
+      <div class="section-header">
+        <h2>Lisensi Aplikasi</h2>
+        <p>Kelola lisensi untuk membuka fitur premium DORA Agent.</p>
+      </div>
+
+      <div class="license-container" style="max-width: 600px;">
+        <div class="card" style="margin-bottom: 24px; border-left: 4px solid var(--accent);">
+          <div class="card-info">
+            <div class="card-label">ID Perangkat (HWID)</div>
+            <div class="card-value" id="displayHwid" style="font-family: monospace; letter-spacing: 1px;">—</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 5px;">
+              Gunakan ID ini saat melakukan aktivasi lisensi.
+            </div>
+          </div>
+        </div>
+
+        <div class="config-group">
+          <div class="config-group-title"><i class="fa-solid fa-key"></i> Aktivasi Lisensi</div>
+          <div class="config-field">
+            <label for="licenseKeyInput" class="config-label">License Key</label>
+            <div class="config-input-wrapper">
+              <input type="text" id="licenseKeyInput" class="config-input" placeholder="DORA-XXXX-XXXX-XXXX" />
+              <button class="btn btn-primary" id="btnVerifyLicense" style="border-radius: 0 6px 6px 0; height: 100%;">
+                Verifikasi
+              </button>
+            </div>
+          </div>
+          
+          <div id="licenseStatusBox" class="info-note" style="margin-top: 15px; display: none;">
+            <!-- Status message injected by JS -->
+          </div>
+        </div>
+
+        <div class="config-group">
+          <div class="config-group-title"><i class="fa-solid fa-star"></i> Fitur Pro</div>
+          <ul style="padding-left: 20px; color: var(--text-secondary); font-size: 13.5px; line-height: 1.8;">
+            <li>✅ Pengiriman Gambar & File (Unlimited)</li>
+            <li>✅ Transkripsi Voice Note (Unlimited)</li>
+            <li>✅ Multiple Gemini API Key (Anti Rate-Limit)</li>
+            <li>✅ Unlimited Data Excel</li>
+            <li>✅ Fitur Alamat Cabang & Lokasi</li>
+            <li>✅ Prioritas Pembaruan Sistem</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
   </div>
+
 
   <!-- ===== TOAST NOTIFICATION ===== -->
   <div class="toast" id="toast"></div>

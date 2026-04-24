@@ -141,6 +141,19 @@ body {
   color: var(--text-primary);
 }
 
+.badge-pro {
+  background: var(--accent);
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: 6px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(37, 211, 102, 0.3);
+}
+
+
 .sidebar-toggle {
   background: none;
   border: none;
