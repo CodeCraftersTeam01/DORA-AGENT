@@ -1,6 +1,6 @@
 # 🤖 DORA AGENT — WhatsApp AI Chatbot
 
-DORA Agent adalah chatbot WhatsApp berbasis AI yang canggih, mendukung integrasi Gemini AI, OpenRouter, dan fitur Dashboard Admin yang modern. Bot ini dirancang untuk berjalan lancar di berbagai platform seperti Windows, Linux, macOS, dan Termux.
+DORA Agent adalah chatbot WhatsApp berbasis AI yang canggih, mendukung integrasi Gemini AI, OpenRouter, dan fitur Dashboard Admin yang modern. Bot ini dirancang untuk berjalan lancar di berbagai platform seperti Windows, Linux, dan macOS.
 
 ---
 
@@ -37,17 +37,6 @@ DORA Agent adalah chatbot WhatsApp berbasis AI yang canggih, mendukung integrasi
    docker-compose up -d
    ```
 3. Bot akan berjalan otomatis di background.
-
-### 3. Termux (Android)
-1. Buka Termux, jalankan script instalasi otomatis:
-   ```bash
-   pkg update && pkg upgrade
-   pkg install git nodejs-lts ffmpeg libwebp build-essential python binutils libvips pkg-config xorgproto -y
-   git clone <URL_REPO_ANDA>
-   cd DORA-AGENT
-   npm install --legacy-peer-deps --ignore-scripts
-   node index.js
-   ```
 
 ---
 
