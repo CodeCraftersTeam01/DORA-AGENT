@@ -22,7 +22,7 @@ DORA Agent adalah chatbot WhatsApp berbasis AI yang canggih, mendukung integrasi
 2. Clone atau download folder project ini.
 3. Buka terminal/CMD di folder project, lalu jalankan:
    ```bash
-   npm install
+   npm install --legacy-peer-deps
    ```
 4. Jalankan bot:
    ```bash
@@ -45,7 +45,7 @@ DORA Agent adalah chatbot WhatsApp berbasis AI yang canggih, mendukung integrasi
    pkg install git nodejs-lts ffmpeg libwebp -y
    git clone <URL_REPO_ANDA>
    cd DORA-AGENT
-   npm install
+   npm install --legacy-peer-deps
    node index.js
    ```
 
