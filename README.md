@@ -42,10 +42,10 @@ DORA Agent adalah chatbot WhatsApp berbasis AI yang canggih, mendukung integrasi
 1. Buka Termux, jalankan script instalasi otomatis:
    ```bash
    pkg update && pkg upgrade
-   pkg install git nodejs-lts ffmpeg libwebp build-essential python binutils libvips -y
+   pkg install git nodejs-lts ffmpeg libwebp build-essential python binutils libvips pkg-config xorgproto -y
    git clone <URL_REPO_ANDA>
    cd DORA-AGENT
-   npm install --legacy-peer-deps
+   npm install --legacy-peer-deps --ignore-scripts
    node index.js
    ```
 
