@@ -1,93 +1,76 @@
-<div align="center">
+# 🤖 DORA AGENT — WhatsApp AI Chatbot
 
-# 🤖 DORA AGENT
-### **Profesional WhatsApp AI Bot with Modern Admin Dashboard**
-
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Docker Support](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://www.docker.com/)
-[![AI Powered](https://img.shields.io/badge/AI-Gemini%20%26%20OpenRouter-blueviolet.svg)](https://aistudio.google.com/)
+DORA Agent adalah chatbot WhatsApp berbasis AI yang canggih, mendukung integrasi Gemini AI, OpenRouter, dan fitur Dashboard Admin yang modern. Bot ini dirancang untuk berjalan lancar di berbagai platform seperti Windows, Linux, macOS, dan Termux.
 
 ---
 
-DORA Agent adalah asisten virtual WhatsApp generasi terbaru yang dirancang untuk kebutuhan profesional. Menggabungkan kecerdasan buatan dari **Google Gemini** dan **OpenRouter**, bot ini mampu memberikan respon yang alami, cerdas, dan kontekstual.
+## 🚀 Fitur Unggulan
 
-[Fitur Utama](#-fitur-unggulan) • [Instalasi](#-cara-instalasi--menjalankan-bot) • [Docker](#metode-2-mode-docker-container-disarankan-untuk-server-cloud) • [Keamanan](#perlindungan-data-aman-keamanan)
-
-</div>
-
----
-
-## 🌟 Fitur Unggulan
-
-- **🖥️ Dashboard Admin Modern:** Kelola seluruh pengaturan bot melalui interface web yang elegan dan responsif.
-  <img width="1365" height="659" alt="DORA Dashboard Preview" src="https://github.com/user-attachments/assets/a63addc3-0ef1-4388-9fcd-d05358e0eec2" style="border-radius: 10px; margin: 10px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" />
-- **⚙️ Konfigurasi Real-time:** Perbarui API Key, Mode AI, dan Prefix secara instan tanpa perlu restart aplikasi.
-- **📊 Knowledge Base (Excel):** Berikan bot "pengetahuan" khusus dengan mengunggah file Excel secara langsung.
-- **🎙️ Multimodal Support:** Bot memahami teks, gambar, dokumen, hingga transkripsi pesan suara (*Voice Notes*).
-- **🔒 Keamanan Berlapis:** Sistem autentikasi admin yang terisolasi dan penyimpanan sesi WhatsApp yang aman.
+- **Multi-Modal AI**: Mendukung Teks, Gambar, dan Dokumen (via Gemini).
+- **Voice Transcription**: Mengubah Voice Note menjadi teks secara otomatis.
+- **Modern Dashboard**: Kelola pengaturan, lihat log live, dan chat langsung dari browser.
+- **Live Agent Mode**: Ambil alih percakapan kapan saja untuk menjawab manual.
+- **Permanent Activation**: Lisensi aktif selamanya.
+- **Cross-Platform**: Support Docker, PM2, dan instalasi manual.
 
 ---
 
-## 💻 Cara Instalasi & Menjalankan Bot
+## 🛠️ Instalasi
 
-Pilih salah satu metode di bawah ini yang paling sesuai dengan kebutuhan server Anda.
-
-### Metode 1: Mode Node.js Lokal (Penggunaan Standar)
-
-#### Persyaratan
-* **Node.js** v18 atau lebih tinggi.
-* **NPM** (sudah termasuk dalam Node.js).
-
-#### Langkah-langkah
-1. Clone repositori ini atau download source codenya.
-2. Buka terminal di folder project dan jalankan:
+### 1. Windows / macOS / Linux (Manual)
+1. Pastikan sudah menginstal [Node.js](https://nodejs.org/) (versi 18 ke atas).
+2. Clone atau download folder project ini.
+3. Buka terminal/CMD di folder project, lalu jalankan:
    ```bash
-   npm install --no-audit --no-fund --legacy-peer-deps
+   npm install
    ```
-3. Jalankan aplikasi:
+4. Jalankan bot:
    ```bash
-   npm start
+   node index.js
    ```
-4. Buka browser dan akses **`http://localhost:3000`**.
-5. Pada kunjungan pertama, buat akun admin Anda. Hubungkan WhatsApp dengan melakukan scan QR di dashboard.
+5. Buka dashboard di browser: `http://localhost:3000`
 
----
-
-### Metode 2: Mode Docker Container (Disarankan untuk Server Cloud)
-
-Docker memastikan bot berjalan dalam lingkungan yang stabil dan terisolasi.
-
-#### Langkah-langkah
-1. Pastikan Docker dan Docker Compose sudah terinstal.
-2. Buat file `.env` kosong (diperlukan untuk inisialisasi volume):
-   - **Windows (CMD):** `type nul > .env`
-   - **Mac/Linux:** `touch .env`
-3. Bangun dan jalankan kontainer:
+### 2. Menggunakan Docker (Rekomendasi VPS/Server)
+1. Pastikan Docker & Docker Compose sudah terinstal.
+2. Jalankan perintah:
    ```bash
-   docker-compose up -d --build
+   docker-compose up -d
    ```
-4. Akses dashboard di **`http://localhost:3000`**.
-5. Pantau aktivitas bot via log:
+3. Bot akan berjalan otomatis di background.
+
+### 3. Termux (Android)
+1. Buka Termux, jalankan script instalasi otomatis:
    ```bash
-   docker-compose logs -f
+   pkg update && pkg upgrade
+   pkg install git nodejs-lts ffmpeg libwebp -y
+   git clone <URL_REPO_ANDA>
+   cd DORA-AGENT
+   npm install
+   node index.js
    ```
 
-*(Untuk mematikan bot: `docker-compose down`)*
+---
+
+## ⚙️ Konfigurasi
+Semua konfigurasi sekarang dilakukan melalui **Dashboard Admin**.
+1. Jalankan bot.
+2. Akses `http://localhost:3000`.
+3. Masuk ke menu **Pengaturan**.
+4. Isi API Keys (Gemini/OpenRouter) dan simpan. 
+   *Data tersimpan aman di `data/config.json`.*
 
 ---
 
-## 🛡️ Perlindungan Data & Keamanan
-
-1. **Letak Data Autentikasi:** 
-   Kredensial admin disimpan di luar folder project (`os.homedir()`) untuk mencegah kebocoran saat melakukan update atau push kode ke cloud.
-2. **Persistence Data:** 
-   Sesi WhatsApp (`auth_info`) dan data unggahan tetap tersimpan meskipun kontainer Docker dihapus atau aplikasi direstart. Anda tidak perlu scan QR berulang kali.
+## 📱 Perintah Bot
+- `/reset` : Menghapus riwayat percakapan dengan AI.
+- `/info` : Melihat status bot dan model AI yang digunakan.
 
 ---
 
-<div align="center">
+## 🛡️ Lisensi & Keamanan
+- File `.env` hanya digunakan untuk pengaturan sistem (Port).
+- Semua data sensitif tersimpan di folder `data/` yang otomatis diabaikan oleh Git untuk mencegah kebocoran kunci API.
 
-**Dibuat dengan ❤️ oleh [CodeCrafters Team](https://github.com/CodeCraftersTeam01)**
+---
 
-</div>
+**Dibuat dengan ❤️ oleh Antigravity untuk DORA AGENT Team.**
