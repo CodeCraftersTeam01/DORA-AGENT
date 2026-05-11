@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "WhatsApp AI Chatbot powered by Gemini & OpenRouter",
   "main": "index.js",
+  "bin": "dist/index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
     "build": "node scripts/build.js",
+    "release": "npm run build && pkg . --output release/dora-agent.exe",
     "start:prod": "node dist/index.js",
     "deploy:prod": "node scripts/deploy-prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -44,6 +46,19 @@
   },
   "devDependencies": {
     "fs-extra": "^11.3.4",
-    "javascript-obfuscator": "^5.4.1"
+    "javascript-obfuscator": "^5.4.1",
+    "pkg": "^5.8.1"
+  },
+  "pkg": {
+    "scripts": [
+      "dist/**/*.js"
+    ],
+    "assets": [
+      "dist/dashboard/**/*",
+      "dist/.env.example"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ]
   }
 }
