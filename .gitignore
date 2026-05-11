@@ -12,3 +12,6 @@ auth_info/
 
 # Build output
 dist/
+
+# Persistent data & configurations (contains secrets)
+data/

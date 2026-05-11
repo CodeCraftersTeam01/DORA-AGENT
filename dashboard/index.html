@@ -19,9 +19,11 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
-        <i class="fa-solid fa-robot logo-icon-fa"></i>
-        <span class="logo-text">DORA Agent</span>
-        <span class="badge-pro" id="badgePro" style="display:none;">AKTIF</span>
+        <div class="dora-brand">
+          <div class="dora-main">DORA<span class="dora-dot">.</span></div>
+          <div class="dora-sub">DIGITAL ORDER & RETAIL ASSISTANT</div>
+        </div>
+        <span class="badge-pro" id="badgePro" style="display:none; margin-left:8px;">AKTIF</span>
       </div>
 
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Tutup menu">
@@ -37,6 +39,10 @@
       <a href="#" class="nav-item" data-section="qr" id="nav-qr">
         <i class="fa-solid fa-qrcode nav-icon-fa"></i>
         <span class="nav-label">QR WhatsApp</span>
+      </a>
+      <a href="#" class="nav-item" data-section="livechat" id="nav-livechat">
+        <i class="fa-solid fa-comments nav-icon-fa"></i>
+        <span class="nav-label">Live Chat</span>
       </a>
       <a href="#" class="nav-item" data-section="prompt" id="nav-prompt">
         <i class="fa-solid fa-file-lines nav-icon-fa"></i>
@@ -58,12 +64,7 @@
         <i class="fa-solid fa-sliders nav-icon-fa"></i>
         <span class="nav-label">Konfigurasi</span>
       </a>
-      <a href="#" class="nav-item" data-section="license" id="nav-license">
-        <i class="fa-solid fa-certificate nav-icon-fa"></i>
-        <span class="nav-label">Aktivasi</span>
-      </a>
     </nav>
-
 
     <div class="sidebar-footer">
       <div class="bot-status-mini" id="botStatusMini">
@@ -205,6 +206,50 @@
     </section>
 
     <!-- ============================= -->
+    <!--  SECTION: LIVE CHAT          -->
+    <!-- ============================= -->
+    <section class="section" id="section-livechat">
+      <div class="chat-container">
+        <!-- Sidebar for chat list -->
+        <div class="chat-sidebar" id="chatList">
+          <div class="chat-list-empty">Belum ada obrolan aktif.</div>
+        </div>
+
+        <!-- Main chat area -->
+        <div class="chat-main" id="chatMain" style="display:none;">
+          <div class="chat-main-header">
+            <div class="chat-header-info">
+              <i class="fa-solid fa-user-circle" style="font-size:30px; color:var(--text-secondary);"></i>
+              <strong id="activeChatJid">Nomor WhatsApp</strong>
+              <div id="chatMainAgentBadge" style="display:none; background:var(--danger); color:white; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:bold; margin-left:10px;">
+                <i class="fa-solid fa-headset"></i> LIVE AGENT MODE
+              </div>
+            </div>
+            
+            <div id="liveAgentToggleContainer" style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:13px; font-weight:600;" id="liveAgentStatusText">AI Merespons</span>
+              <label class="switch">
+                <input type="checkbox" id="liveAgentToggle">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="chat-messages" id="chatMessages">
+            <!-- Messages go here -->
+          </div>
+
+          <div class="chat-input-area">
+            <textarea id="chatInput" placeholder="Ketik pesan untuk membalas... (Tekan Enter untuk kirim, Shift+Enter baris baru)"></textarea>
+            <button id="btnSendChat" class="btn btn-primary" title="Kirim Pesan (Enter)">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= -->
     <!--  SECTION: SISTEM PROMPT      -->
     <!-- ============================= -->
     <section class="section" id="section-prompt">
@@ -214,16 +259,7 @@
       </div>
 
       <div class="prompt-container">
-        <div class="prompt-help">
-          <div class="help-title"><i class="fa-solid fa-lightbulb"></i> Apa itu Sistem Prompt?</div>
-          <p>Sistem prompt adalah instruksi yang diberikan ke AI sebelum mulai berbicara dengan pelanggan. Contoh:
-            <em>"Kamu adalah CS Toko Mawar. Selalu sapa dengan ramah dan profesional."</em></p>
-          <div class="help-note-human">
-            <i class="fa-solid fa-user-secret"></i> <strong>Mode Manusia aktif.</strong> Bot sudah dikonfigurasi untuk
-            berbicara seperti manusia, bukan seperti AI. Instruksi ini bersifat tersembunyi dan tidak bisa diubah dari
-            sini.
-          </div>
-        </div>
+
 
         <div class="file-tabs" id="promptFileTabs"></div>
 
@@ -517,118 +553,7 @@ Informasikan harga sesuai data yang ada."></textarea>
       </div>
     </section>
 
-    <!-- ============================= -->
-    <!--  SECTION: AKTIVASI            -->
-    <!-- ============================= -->
-    <section class="section" id="section-license">
-      <div class="section-header">
-        <h2>Aktivasi Aplikasi</h2>
-        <p>Masukkan Activation Key untuk mendapatkan akses penuh ke aplikasi DORA Agent.</p>
-      </div>
-
-      <div class="license-wrapper">
-        <!-- Main Status Card -->
-        <div class="license-status-card" id="licenseStatusCard">
-          <div class="license-status-icon">
-            <i class="fa-solid fa-shield-halved" id="licenseMainIcon"></i>
-          </div>
-          <div class="license-status-info">
-            <div class="license-badge" id="licenseStatusBadge">INACTIVE</div>
-            <h3 id="licenseStatusTitle">DORA Agent (Menunggu Aktivasi)</h3>
-            <p id="licenseStatusDesc">Gunakan Activation Key untuk membuka seluruh fitur aplikasi.</p>
-          </div>
-          <div class="license-status-action">
-             <a href="https://lynk.id/codingsolver" target="_blank" class="btn btn-primary btn-pro-buy">
-               <i class="fa-solid fa-cart-shopping"></i> Beli Activation Key
-             </a>
-          </div>
-        </div>
-
-        <div class="license-grid">
-          <!-- HWID Card -->
-          <div class="license-info-card">
-            <div class="info-card-header">
-              <i class="fa-solid fa-microchip"></i>
-              <span>Hardware ID (HWID)</span>
-            </div>
-            <div class="hwid-display">
-              <span id="displayHwid">GENERATING...</span>
-              <button class="copy-btn" onclick="copyHwid()" title="Salin HWID">
-                <i class="fa-solid fa-copy"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Activation Card -->
-          <div class="license-info-card">
-            <div class="info-card-header">
-              <i class="fa-solid fa-key"></i>
-              <span>Aktivasi Kunci</span>
-            </div>
-            <div class="license-input-group">
-              <input type="text" id="licenseKeyInput" placeholder="DORA-XXXX-XXXX-XXXX" spellcheck="false" />
-              <button id="btnVerifyLicense" class="btn btn-primary">
-                <i class="fa-solid fa-check-double"></i> Aktivasi
-              </button>
-            </div>
-            <div id="licenseStatusBox" class="license-message" style="display:none;"></div>
-          </div>
-        </div>
-
-        <!-- Features Comparison -->
-        <div class="features-comparison">
-          <div class="features-header">
-            <i class="fa-solid fa-star"></i> Manfaat Aktivasi Aplikasi
-          </div>
-          <div class="features-grid">
-            <div class="feature-item">
-              <div class="feature-icon"><i class="fa-solid fa-image"></i></div>
-              <div class="feature-text">
-                <strong>Multi-Media Support</strong>
-                <span>Kirim & terima gambar, video, dan file dokumen tanpa batas.</span>
-              </div>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon"><i class="fa-solid fa-microphone-lines"></i></div>
-              <div class="feature-text">
-                <strong>Transkripsi Voice Note</strong>
-                <span>AI dapat mendengarkan dan membalas pesan suara pelanggan secara cerdas.</span>
-              </div>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
-              <div class="feature-text">
-                <strong>Anti Rate-Limit</strong>
-                <span>Gunakan multiple Gemini API Key untuk performa bot yang lebih stabil.</span>
-              </div>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon"><i class="fa-solid fa-database"></i></div>
-              <div class="feature-text">
-                <strong>Data Excel Unlimited</strong>
-                <span>Upload banyak file Excel untuk basis pengetahuan AI yang lebih luas.</span>
-              </div>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-              <div class="feature-text">
-                <strong>Manajemen Cabang</strong>
-                <span>Kelola banyak lokasi cabang toko untuk informasi pelanggan yang akurat.</span>
-              </div>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-              <div class="feature-text">
-                <strong>Prioritas Update</strong>
-                <span>Dapatkan fitur terbaru DORA Agent lebih awal dibandingkan pengguna gratis.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
+    <!-- Halaman Aktivasi telah dihapus -->
   </div>
 
 
