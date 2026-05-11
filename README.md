@@ -61,12 +61,6 @@ Semua konfigurasi sekarang dilakukan melalui **Dashboard Admin**.
 
 ---
 
-## 📱 Perintah Bot
-- `/reset` : Menghapus riwayat percakapan dengan AI.
-- `/info` : Melihat status bot dan model AI yang digunakan.
-
----
-
 ## 🛡️ Lisensi & Keamanan
 - File `.env` hanya digunakan untuk pengaturan sistem (Port).
 - Semua data sensitif tersimpan di folder `data/` yang otomatis diabaikan oleh Git untuk mencegah kebocoran kunci API.
