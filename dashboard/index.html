@@ -21,7 +21,7 @@
       <div class="logo">
         <i class="fa-solid fa-robot logo-icon-fa"></i>
         <span class="logo-text">DORA Agent</span>
-        <span class="badge-pro" id="badgePro" style="display:none;">PRO</span>
+        <span class="badge-pro" id="badgePro" style="display:none;">AKTIF</span>
       </div>
 
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Tutup menu">
@@ -60,7 +60,7 @@
       </a>
       <a href="#" class="nav-item" data-section="license" id="nav-license">
         <i class="fa-solid fa-certificate nav-icon-fa"></i>
-        <span class="nav-label">Lisensi</span>
+        <span class="nav-label">Aktivasi</span>
       </a>
     </nav>
 
@@ -518,12 +518,12 @@ Informasikan harga sesuai data yang ada."></textarea>
     </section>
 
     <!-- ============================= -->
-    <!--  SECTION: LISENSI            -->
+    <!--  SECTION: AKTIVASI            -->
     <!-- ============================= -->
     <section class="section" id="section-license">
       <div class="section-header">
-        <h2>Manajemen Lisensi</h2>
-        <p>Aktifkan lisensi DORA Agent untuk mendapatkan akses ke seluruh fitur premium.</p>
+        <h2>Aktivasi Aplikasi</h2>
+        <p>Masukkan Activation Key untuk mendapatkan akses penuh ke aplikasi DORA Agent.</p>
       </div>
 
       <div class="license-wrapper">
@@ -533,13 +533,13 @@ Informasikan harga sesuai data yang ada."></textarea>
             <i class="fa-solid fa-shield-halved" id="licenseMainIcon"></i>
           </div>
           <div class="license-status-info">
-            <div class="license-badge" id="licenseStatusBadge">FREE VERSION</div>
-            <h3 id="licenseStatusTitle">DORA Agent Standard</h3>
-            <p id="licenseStatusDesc">Gunakan lisensi PRO untuk membuka fitur asisten AI tanpa batas.</p>
+            <div class="license-badge" id="licenseStatusBadge">INACTIVE</div>
+            <h3 id="licenseStatusTitle">DORA Agent (Menunggu Aktivasi)</h3>
+            <p id="licenseStatusDesc">Gunakan Activation Key untuk membuka seluruh fitur aplikasi.</p>
           </div>
           <div class="license-status-action">
              <a href="https://lynk.id/codingsolver" target="_blank" class="btn btn-primary btn-pro-buy">
-               <i class="fa-solid fa-cart-shopping"></i> Beli Lisensi
+               <i class="fa-solid fa-cart-shopping"></i> Beli Activation Key
              </a>
           </div>
         </div>
@@ -578,7 +578,7 @@ Informasikan harga sesuai data yang ada."></textarea>
         <!-- Features Comparison -->
         <div class="features-comparison">
           <div class="features-header">
-            <i class="fa-solid fa-star"></i> Manfaat Lisensi PRO
+            <i class="fa-solid fa-star"></i> Manfaat Aktivasi Aplikasi
           </div>
           <div class="features-grid">
             <div class="feature-item">
@@ -729,6 +729,34 @@ Informasikan harga sesuai data yang ada."></textarea>
       <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;" id="restartStatusText">
         Sedang memulai ulang koneksi WhatsApp dan memuat konfigurasi baru. Mohon tunggu sebentar...
       </p>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: ACTIVATION KEY BLOCKER ===== -->
+  <div class="modal-overlay" id="activationBlockerOverlay" style="display:flex; z-index: 99999; backdrop-filter: blur(15px); background: rgba(15, 23, 42, 0.95);">
+    <div class="modal" style="max-width: 450px; text-align: center; padding: 40px 30px; position: relative;">
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--danger), var(--warning));"></div>
+      <div style="margin-bottom: 20px;">
+        <i class="fa-solid fa-lock" style="font-size: 55px; color: var(--danger); text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);"></i>
+      </div>
+      <h3 style="margin-bottom: 12px; font-size: 24px; color: white;">Aktivasi Diperlukan</h3>
+      <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 25px;">
+        Sistem mendeteksi bahwa aplikasi ini belum diaktifkan atau masa aktif telah berakhir. Harap masukkan <strong>Activation Key</strong> untuk melanjutkan akses.
+      </p>
+      
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px;">
+        <input type="text" id="blockerActivationKeyInput" class="config-input" placeholder="Masukkan Activation Key..." spellcheck="false" style="width: 100%; text-align: center; letter-spacing: 2px; font-weight: bold; font-family: monospace; font-size: 16px; padding: 14px; box-sizing: border-box;" />
+        <button id="btnBlockerVerify" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 15px; justify-content: center;">
+          <i class="fa-solid fa-check-double"></i> Aktivasi Sekarang
+        </button>
+      </div>
+      <div id="blockerActivationStatus" class="license-message" style="display:none; text-align: left; margin-bottom: 15px;"></div>
+      
+      <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+        <a href="https://lynk.id/codingsolver" target="_blank" class="btn btn-secondary btn-sm" style="width: 100%; justify-content: center;">
+          <i class="fa-solid fa-cart-shopping"></i> Dapatkan Activation Key
+        </a>
+      </div>
     </div>
   </div>
 
