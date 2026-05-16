@@ -11,9 +11,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Security: Hide dashboard until auth verified */
+    #appWrapper { display: none; }
+  </style>
 </head>
 
-<body>
+<body class="light-theme">
+  <div id="appWrapper" style="display: none; width: 100%; min-height: 100vh;">
 
   <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar" id="sidebar">
@@ -54,7 +59,7 @@
       </a>
       <a href="#" class="nav-item" data-section="branches" id="nav-branches">
         <i class="fa-solid fa-map-location-dot nav-icon-fa"></i>
-        <span class="nav-label">Alamat Cabang</span>
+        <span class="nav-label">Alamat Toko</span>
       </a>
       <a href="#" class="nav-item" data-section="apikey" id="nav-apikey">
         <i class="fa-solid fa-key nav-icon-fa"></i>
@@ -91,9 +96,14 @@
         <button class="topbar-btn restart-btn" id="btnRestartBot" title="Restart Bot">
           <i class="fa-solid fa-rotate"></i>
         </button>
+        <button class="topbar-btn" id="topbarNotificationBtn" title="Notifikasi & Eskalasi" onclick="navigate('escalations')">
+          <i class="fa-solid fa-bell"></i>
+          <span id="topbarEscalationBadge" class="btn-badge" style="display:none;">0</span>
+        </button>
         <button class="theme-toggle" id="themeToggleBtn" aria-label="Toggle Dark Mode">
           <i class="fa-solid fa-moon"></i>
         </button>
+        <div class="topbar-divider"></div>
         <span class="time-display" id="timeDisplay"></span>
       </div>
     </header>
@@ -430,15 +440,15 @@ Informasikan harga sesuai data yang ada."></textarea>
     <!-- ============================= -->
     <section class="section" id="section-branches">
       <div class="section-header">
-        <h2>Alamat Cabang / Toko</h2>
-        <p>Kelola daftar lokasi cabang toko kamu agar AI bisa memberikan informasi lokasi yang akurat kepada pelanggan.</p>
+        <h2>Alamat Toko</h2>
+        <p>Kelola daftar lokasi toko kamu agar AI bisa memberikan informasi lokasi yang akurat kepada pelanggan.</p>
       </div>
 
       <div class="branches-container" style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow);">
         <div class="branches-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-          <div class="branches-title" style="font-weight:600; font-size:14px;"><i class="fa-solid fa-store"></i> Daftar Cabang Terdaftar</div>
+          <div class="branches-title" style="font-weight:600; font-size:14px;"><i class="fa-solid fa-store"></i> Daftar Toko Terdaftar</div>
           <button class="btn btn-primary btn-sm" id="btnAddBranch">
-            <i class="fa-solid fa-plus"></i> Tambah Cabang Baru
+            <i class="fa-solid fa-plus"></i> Tambah Toko Baru
           </button>
         </div>
         
@@ -449,6 +459,36 @@ Informasikan harga sesuai data yang ada."></textarea>
         <div class="info-note" style="margin-top: 20px; padding:12px; background:var(--bg); border:1px solid var(--border); border-radius:6px; font-size:12.5px; color:var(--text-secondary);">
           <i class="fa-solid fa-circle-info"></i> <strong>Tips:</strong> Masukkan link Google Maps agar AI bisa memberikan navigasi langsung kepada pelanggan saat mereka bertanya lokasi.
         </div>
+      </div>
+    </section>
+
+    <!-- ============================= -->
+    <!--  SECTION: ESCALATIONS        -->
+    <!-- ============================= -->
+    <section class="section" id="section-escalations">
+      <div class="section-header">
+        <div style="display:flex; justify-content:space-between; align-items:center; width: 100%;">
+          <div>
+            <h2>Notifikasi & Eskalasi</h2>
+            <p>Daftar percakapan yang diteruskan (handoff) ke admin.</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span id="escalationBadge" class="header-badge" style="display:none;">0</span>
+            <button id="refreshEscalationsBtn" class="btn btn-secondary btn-sm"><i class="fa-solid fa-arrows-rotate"></i> Segarkan</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-bar" style="margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-list"></i> Semua</button>
+        <button class="filter-btn" data-filter="pesanan"><i class="fa-solid fa-box"></i> Pesanan</button>
+        <button class="filter-btn" data-filter="kritik"><i class="fa-solid fa-circle-exclamation"></i> Kritik/Komplain</button>
+        <button class="filter-btn" data-filter="saran"><i class="fa-solid fa-lightbulb"></i> Saran</button>
+        <button class="filter-btn" data-filter="lainnya"><i class="fa-solid fa-comment-dots"></i> Lainnya</button>
+      </div>
+      
+      <div id="escalationsContainer" class="escalations-grid" style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+        <div class="file-empty" style="text-align:center; padding:40px; color:var(--text-muted);">Memuat riwayat eskalasi...</div>
       </div>
     </section>
 
@@ -521,6 +561,29 @@ Informasikan harga sesuai data yang ada."></textarea>
         </div>
 
         <div class="config-group">
+          <div class="config-group-title"><i class="fa-solid fa-bell"></i> Pengaturan Notifikasi & Eskalasi</div>
+          <div class="config-note">Konfigurasi kemana peringatan atau pesanan akan dikirimkan secara otomatis oleh AI.</div>
+
+          <div class="config-field">
+            <label for="cfg-webhook-url" class="config-label">Webhook URL (API POST)</label>
+            <input type="text" id="cfg-webhook-url" class="config-input" placeholder="https://api.domainmu.com/webhook..." data-env="ORDER_WEBHOOK_URL" />
+          </div>
+          
+          <div class="config-field">
+            <label for="cfg-group-jid" class="config-label">
+              Grup WhatsApp Notifikasi
+              <span class="config-hint">Pilih grup untuk mengirim peringatan eskalasi. (Bot harus sudah bergabung)</span>
+            </label>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <select id="cfg-group-jid" class="config-input" data-env="ORDER_NOTIFICATION_GROUP_JID" style="flex: 1;">
+                <option value="">-- Memuat grup... --</option>
+              </select>
+              <button id="refreshGroupsBtn" class="btn btn-secondary btn-sm" title="Refresh Daftar Grup"><i class="fa-solid fa-arrows-rotate"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="config-group">
           <div class="config-group-title"><i class="fa-solid fa-user-lock"></i> Akun Admin Dashboard</div>
           <div class="config-note">Ubah username dan password untuk masuk ke dashboard ini. Anda akan diminta login
             ulang setelah berhasil mengganti akun.</div>
@@ -540,6 +603,19 @@ Informasikan harga sesuai data yang ada."></textarea>
           <div style="margin-top:10px;">
             <button class="btn btn-secondary btn-sm" id="updateAdminBtn">
               <i class="fa-solid fa-key"></i> Perbarui Akun Admin
+            </button>
+          </div>
+        </div>
+
+        <div class="config-group">
+          <div class="config-group-title"><i class="fa-solid fa-screwdriver-wrench"></i> Pemeliharaan Sesi WhatsApp</div>
+          <div class="config-note">Gunakan fitur ini jika bot mengalami masalah koneksi atau muncul pesan <b>"Menunggu pesan ini"</b> di WhatsApp. Fitur ini akan menghapus sesi lama dan meminta Anda scan ulang.</div>
+          <div style="margin-top:10px; display: flex; gap: 10px;">
+            <button class="btn btn-secondary btn-sm" id="restartBotBtn">
+              <i class="fa-solid fa-power-off"></i> Restart Bot
+            </button>
+            <button class="btn btn-danger btn-sm" id="resetSessionBtn">
+              <i class="fa-solid fa-trash-can"></i> Reset Sesi (Scan Ulang)
             </button>
           </div>
         </div>
@@ -765,6 +841,38 @@ Informasikan harga sesuai data yang ada."></textarea>
       }, 2000);
     })();
   </script>
+
+  </div>
+
+  <!-- ================== OVERLAY LOGIN ================== -->
+  <div class="login-overlay" id="loginModalOverlay" style="display:none;">
+    <div class="login-card">
+      <div class="login-logo">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <h2 class="login-title" id="loginModalTitle">Login Dashboard</h2>
+      <p class="login-subtitle" id="loginModalSubtitle">Masukkan kredensial Anda untuk mengakses kontrol panel DORA Agent.</p>
+      
+      <div class="login-field">
+        <label class="login-label">Username</label>
+        <input type="text" id="loginUsername" class="login-input" placeholder="Masukkan username...">
+      </div>
+      
+      <div class="login-field">
+        <label class="login-label">Password</label>
+        <input type="password" id="loginPassword" class="login-input" placeholder="Masukkan password...">
+      </div>
+      
+      <button class="login-btn" id="btnLoginSubmit">
+        <i class="fa-solid fa-right-to-bracket"></i> &nbsp; <span id="btnLoginText">Masuk Sekarang</span>
+      </button>
+
+      <div class="login-footer">
+        &copy; 2026 DORA Agent AI. Secure Environment.
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>
