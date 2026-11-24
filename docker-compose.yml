@@ -15,7 +15,6 @@ services:
       - ./auth_info:/app/auth_info
       - ./data:/app/data
       - ./.env:/app/.env:ro
-      # Data akun Admin akan disimpan aman dalam volume khusus docker agar tidak terlihat sebagai file terbuka
       - dora_admin:/home/node
 
 volumes:

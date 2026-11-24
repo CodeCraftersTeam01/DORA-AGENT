@@ -10,8 +10,13 @@ auth_info/
 *.tmp
 *.temp
 
-# Build output
+# Build & release outputs
 dist/
+release/
+packages/launcher/src-tauri/target/
+
+# OS metadata
+.DS_Store
 
 # Persistent data & configurations (contains secrets)
 data/

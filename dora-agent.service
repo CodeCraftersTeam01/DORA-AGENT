@@ -1,0 +1,27 @@
+[Unit]
+Description=DORA Agent — WhatsApp AI Chatbot & Admin Dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dora
+Group=dora
+WorkingDirectory=/opt/dora-agent/core
+Environment=NODE_ENV=production
+Environment=DASHBOARD_HOST=127.0.0.1
+Environment=DASHBOARD_PORT=3000
+Environment=DORA_DATA_ROOT=/opt/dora-agent/userdata
+ExecStart=/usr/bin/node /opt/dora-agent/core/index.js
+Restart=always
+RestartSec=5
+
+# Security Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=false
+ReadWritePaths=/opt/dora-agent/userdata /home/dora
+
+[Install]
+WantedBy=multi-user.target

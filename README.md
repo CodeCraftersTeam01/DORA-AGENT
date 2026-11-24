@@ -1,59 +1,82 @@
-# 🤖 DORA AGENT — WhatsApp AI Chatbot
+# 🤖 DORA AGENT — Monorepo (Core, Desktop Launcher & Server Kit)
 
-DORA Agent adalah chatbot WhatsApp berbasis AI yang canggih, mendukung integrasi Gemini AI, OpenRouter, dan fitur Dashboard Admin yang modern. Bot ini dirancang untuk berjalan lancar di berbagai platform seperti Windows, Linux, dan macOS.
-
----
-
-## 🚀 Fitur Unggulan
-
-- **Multi-Modal AI**: Mendukung Teks, Gambar, dan Dokumen (via Gemini).
-- **Voice Transcription**: Mengubah Voice Note menjadi teks secara otomatis.
-- **Modern Dashboard**: Kelola pengaturan, lihat log live, dan chat langsung dari browser.
-- **Live Agent Mode**: Ambil alih percakapan kapan saja untuk menjawab manual.
-- **Permanent Activation**: Lisensi aktif selamanya.
-- **Cross-Platform**: Support Docker, PM2, dan instalasi manual.
+DORA Agent adalah chatbot WhatsApp berbasis AI (Gemini & OpenRouter) lengkap dengan Dashboard Admin modern, dikemas dalam struktur **monorepo** untuk berjalan di **laptop (Windows, macOS, Linux)** maupun **server/VPS**.
 
 ---
 
-## 🛠️ Instalasi
+## 📦 Struktur Monorepo
 
-### 1. Windows / macOS / Linux (Manual)
-1. Pastikan sudah menginstal [Node.js](https://nodejs.org/) (versi 18 ke atas).
-2. Clone atau download folder project ini.
-3. Buka terminal/CMD di folder project, lalu jalankan:
-   ```bash
-   npm install --legacy-peer-deps
-   ```
-4. Jalankan bot:
-   ```bash
-   node index.js
-   ```
-5. Buka dashboard di browser: `http://localhost:3000`
-
-### 2. Menggunakan Docker (Rekomendasi VPS/Server)
-1. Pastikan Docker & Docker Compose sudah terinstal.
-2. Jalankan perintah:
-   ```bash
-   docker-compose up -d
-   ```
-3. Bot akan berjalan otomatis di background.
+```text
+├── packages/
+│   ├── core/          # Engine WA Bot, AI Service, Security & Admin Dashboard
+│   ├── launcher/      # Aplikasi Desktop Tauri v2 lintas OS (Splash Screen + System Tray)
+│   └── server/        # Kit deployment VPS: Dockerfile, docker-compose, systemd, install.sh
+├── scripts/
+│   ├── build.js       # Build obfuscated -> dist/ + release/dora-agent-core.tar.gz (.sha256)
+│   └── deploy-prod.js # Deploy ke repo publik + rilis GitHub Releases (--release)
+└── .github/workflows/
+    └── release-launcher.yml  # CI otomatis build .exe/.msi, .dmg, .AppImage/.deb + core bundle
+```
 
 ---
 
-## ⚙️ Konfigurasi
-Semua konfigurasi sekarang dilakukan melalui **Dashboard Admin**.
-1. Jalankan bot.
-2. Akses `http://localhost:3000`.
-3. Masuk ke menu **Pengaturan**.
-4. Isi API Keys (Gemini/OpenRouter) dan simpan. 
-   *Data tersimpan aman di `data/config.json`.*
+## 💻 Menjalankan di Laptop (Pengguna Akhir — Tauri Desktop Launcher)
+
+1. Unduh installer sesuai OS dari halaman **GitHub Releases** (`.exe`/`.msi` Windows, `.dmg` macOS, `.AppImage`/`.deb` Linux).
+2. Klik dua kali aplikasi **DORA Agent**:
+   - Launcher otomatis mengecek & mengunduh **Portable Node.js v20** (verifikasi SHA-256 resmi `nodejs.org`).
+   - Mengunduh bundle **DORA Agent Core** terbaru dari GitHub Releases (verifikasi SHA-256).
+   - Memasang dependensi production secara otomatis (di-cache agar klik berikutnya instan).
+   - Menjalankan bot di background (ikon **System Tray**) dan membuka **http://127.0.0.1:3000**.
+3. Data pengguna (`data/` & `auth_info/`) disimpan terpisah via `DORA_DATA_ROOT` sehingga aman saat update core.
 
 ---
 
-## 🛡️ Lisensi & Keamanan
-- File `.env` hanya digunakan untuk pengaturan sistem (Port).
-- Semua data sensitif tersimpan di folder `data/` yang otomatis diabaikan oleh Git untuk mencegah kebocoran kunci API.
+## 🛠️ Development Lokal (Monorepo)
+
+```bash
+# 1. Install semua workspace
+npm install --legacy-peer-deps
+
+# 2. Jalankan bot & dashboard di lokal (127.0.0.1:3000)
+npm start
+
+# 3. Jalankan suite pengujian keamanan
+npm test
+
+# 4. Build obfuscated core + release archive (.tar.gz & .sha256)
+npm run build
+
+# 5. Jalankan / Build Tauri Desktop Launcher (membutuhkan Rust toolchain)
+npm run launcher:dev
+npm run launcher:build
+```
 
 ---
 
-**Dibuat dengan ❤️ oleh Antigravity untuk DORA AGENT Team.**
+## 🖥️ Deployment di Server / VPS (Linux)
+
+### Opsi 1 — Docker (Rekomendasi)
+```bash
+docker compose up -d
+```
+
+### Opsi 2 — Bare-Metal Linux (1-Line Installer + systemd)
+```bash
+curl -fsSL https://raw.githubusercontent.com/CodeCraftersTeam01/DORA-AGENT/main/install.sh | sudo bash
+```
+Service akan berjalan sebagai user non-root `dora` di `127.0.0.1:3000` (pasang Nginx/Caddy untuk HTTPS).
+
+---
+
+## 🚀 Publikasi Production & Release
+
+```bash
+# Push obfuscated dist/ ke repo publik
+npm run deploy:prod
+
+# Push dist/ + upload bundle .tar.gz & .sha256 ke GitHub Releases
+npm run deploy:prod -- --release
+```
+
+Untuk membangun binary launcher lintas OS (Windows, macOS arm64/x64, Linux) secara otomatis, push tag versi baru (`git tag v1.0.0 && git push origin v1.0.0`).
