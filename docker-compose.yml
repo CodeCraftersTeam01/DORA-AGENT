@@ -5,14 +5,18 @@ services:
     build: .
     container_name: dora-agent
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - DASHBOARD_HOST=0.0.0.0
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     volumes:
       - ./auth_info:/app/auth_info
       - ./data:/app/data
-      - ./.env:/app/.env
+      - ./.env:/app/.env:ro
       # Data akun Admin akan disimpan aman dalam volume khusus docker agar tidak terlihat sebagai file terbuka
-      - dora_admin:/root
+      - dora_admin:/home/node
 
 volumes:
   dora_admin:

@@ -11,7 +11,7 @@
     "release": "npm run build && pkg . --output release/dora-agent.exe",
     "start:prod": "node dist/index.js",
     "deploy:prod": "node scripts/deploy-prod.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test test/*.test.js"
   },
   "keywords": [
     "whatsapp",
